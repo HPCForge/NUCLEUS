@@ -1,0 +1,67 @@
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "bubbleformer"
+version = "0.0.0"
+description = "Train Foundational Models om BubbleML"
+authors = [
+    { name="Sheikh Md Shakeel Hassan", email="sheikhh1@umd.edu" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "numpy",
+    "torch==2.9.0",
+    "torchvision",
+    "h5py",
+    "hydra-core",
+    "lightning",
+    "wandb",
+    "timm",
+    "einops",
+    "opencv-python",
+    "matplotlib",
+    "lightning",
+    "wandb",
+    "black",
+    "lion-pytorch",
+    "rich",
+    "scipy",
+    "scikit-image",
+    "seaborn",
+    "joblib"
+]
+
+# Usually stuff is expected to be in `src/bubbleformer/`
+[tool.setuptools.packages.find]
+where = ["bubbleformer"]
+
+[tool.uv.sources]
+torch = [
+  # For developing on macos, need cpu torch
+  { index = "pytorch-cpu", marker = "sys_platform == 'darwin'" },
+  { index = "pytorch-cu128", marker = "sys_platform == 'linux'" },
+]
+torchvision = [
+  { index = "pytorch-cpu", marker = "sys_platform == 'darwin'" },
+  { index = "pytorch-cu128", marker = "sys_platform == 'linux'" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv]
+no-build-isolation-package = ["flash-attn"]
+
+[tool.black]
+line-length = 100
+target-version = ['py310']
+include = '\.pyi?$'
