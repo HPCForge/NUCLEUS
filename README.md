@@ -18,7 +18,7 @@ All [BubbleML 2 is hosted on huggingface](https://huggingface.co/datasets/hpcfor
 
 ## Training
 
-The training scripts use hydra to manage training configs (found in `nucleus/config`).
+The training and inference scripts use hydra to manage configs (found in `nucleus/config`).
 To run the default configs, simply run 
 
 ```console
@@ -33,7 +33,7 @@ python scripts/train.py log_dir=/path/to/log/directory.
 
 ## Inference
 
-`scripts/inf.py` can be used to perform autoregressive inference. This requires loading a trained model checkpoint and specifying its corresponding config. Note, models being trained from scratch may need to run for over 20-30 epochs before autoregressive evaluation is sufficiently stable. Finetuning to a new liquid class of simulation (like OP 250) should be significantly faster. 
+`scripts/inf.py` can be used to perform autoregressive inference. This requires loading a trained model checkpoint and specifying its corresponding config. Note, models being trained from scratch may need to run for over 20-30 epochs before autoregressive evaluation is sufficiently stable. Finetuning to a new liquid (like OP 250) should be significantly faster. 
 
 ```console
 python scripts/inf.py model_ckpt_path=/path/to/model.ckpt model_cfg=model_config_file
