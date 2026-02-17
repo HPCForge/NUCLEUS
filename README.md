@@ -18,7 +18,7 @@ All [BubbleML 2 is hosted on huggingface](https://huggingface.co/datasets/hpcfor
 
 ## Training
 
-The training scripts use hydra to manage training configs (found in `bubbleformer/config`).
+The training scripts use hydra to manage training configs (found in `nucleus/config`).
 To run the default configs, simply run 
 
 ```console

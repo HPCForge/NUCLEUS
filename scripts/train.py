@@ -15,10 +15,10 @@ from lightning.pytorch.callbacks import ModelSummary, Callback, ModelCheckpoint,
 from lightning.pytorch.callbacks.progress.rich_progress import RichProgressBarTheme
 from lightning.pytorch.plugins.environments import SLURMEnvironment
 
-from bubbleformer.data.batching import collate
-from bubbleformer.data import BubbleForecast, DownsampledBubbleForecast
-from bubbleformer.modules import get_train_module
-from bubbleformer.utils.set_fp32_precision import set_fp32_precision
+from nucleus.data.batching import collate
+from nucleus.data import BubbleForecast, DownsampledBubbleForecast
+from nucleus.modules import get_train_module
+from nucleus.utils.set_fp32_precision import set_fp32_precision
 
 def is_leader_process():
     """
@@ -65,7 +65,7 @@ class PreemptionCheckpointCallback(Callback):
         # Optionally, delay a bit to ensure the checkpoint save finishes.
         time.sleep(5)
 
-@hydra.main(version_base=None, config_path="../bubbleformer/config", config_name="default")
+@hydra.main(version_base=None, config_path="../nucleus/config", config_name="default")
 def main(cfg: DictConfig) -> None:
     seed_everything(cfg.seed)
     set_fp32_precision()
@@ -203,12 +203,12 @@ def main(cfg: DictConfig) -> None:
     wandb_run = None
     if cfg.use_wandb and is_leader_process(): # Load only one wandb run
         try:
-            wandb_key_path = "bubbleformer/config/wandb_api_key.txt"
+            wandb_key_path = "nucleus/config/wandb_api_key.txt"
             with open(wandb_key_path, "r", encoding="utf-8") as f:
                 wandb_key = f.read().strip()
             wandb.login(key=wandb_key)
             wandb_run = wandb.init(
-                project="bubbleformer",
+                project="nucleus",
                 name=log_id,
                 dir=params["log_dir"],
                 tags=cfg.wandb_tags,
@@ -217,7 +217,7 @@ def main(cfg: DictConfig) -> None:
             )
         except FileNotFoundError as e:
             print(e)
-            print("Valid wandb API key not found at path bubbleformer/config/wandb_api_key.txt")
+            print("Valid wandb API key not found at path nucleus/config/wandb_api_key.txt")
 
     #torch.cuda.memory._record_memory_history(
     #    max_entries=100000
